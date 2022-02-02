@@ -6,23 +6,14 @@ using System.CommandLine.Parsing;
 using UpdateSocialMedia.Enrichers;
 using UpdateSocialMedia.Models;
 using UpdateSocialMedia.Handlers;
+using System.CommandLine.Hosting;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 // --url=https://www.youtube.com/watch?v=Ir1ZCMoqfWc --subreddit=dotnet,kubernetes
 // --url=https://rehansaeed.com/the-problem-with-csharp-10-implicit-usings/ --subreddit=dotnet,kubernetes
 public static class Program
 {
-    private static readonly List<IEnricher> Enrichers = new()
-    {
-        new BlogPostEnricher(),
-        new YouTubeVideoEnricher(),
-    };
-
-    private static readonly List<IHandler> Handlers = new()
-    {
-        new PinterestHandler(),
-        new RedditHandler(),
-    };
-
     public static async Task<int> Main(string[] arguments)
     {
         var urlOption = new Option<Uri>(
@@ -38,37 +29,40 @@ public static class Program
             subredditOption,
         };
         rootCommand.SetHandler(
-            async (Uri url, string subreddits, CancellationToken cancellationToken) =>
-            {
-                if (url is null)
-                {
-                    return;
-                }
-
-                var content = Content.GetContent(url, subreddits);
-
-                foreach (var enricher in Enrichers)
-                {
-                    if (enricher.CanEnrich(content))
-                    {
-                        await enricher.EnrichAsync(content, cancellationToken).ConfigureAwait(false);
-                    }
-                }
-
-                foreach (var handlers in Handlers)
-                {
-                    if (handlers.CanHandle(content))
-                    {
-                        await handlers.HandleAsync(content, cancellationToken).ConfigureAwait(false);
-                    }
-                }
-            },
+            (Func<IHost, Uri, string, CancellationToken, Task>)OnHandleAsync,
             urlOption,
             subredditOption);
 
         var commandLineBuilder = new CommandLineBuilder(rootCommand)
+            .UseHost(hostBuilder => hostBuilder.ConfigureHost())
             .UseDefaults();
         var parser = commandLineBuilder.Build();
         return await parser.InvokeAsync(arguments).ConfigureAwait(false);
+    }
+
+    private static async Task OnHandleAsync(IHost host, Uri url, string subreddits, CancellationToken cancellationToken)
+    {
+        if (url is null)
+        {
+            return;
+        }
+
+        var content = Content.GetContent(url, subreddits);
+
+        foreach (var enricher in host.Services.GetRequiredService<IEnumerable<IEnricher>>())
+        {
+            if (enricher.CanEnrich(content))
+            {
+                await enricher.EnrichAsync(content, cancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        foreach (var handlers in host.Services.GetRequiredService<IEnumerable<IHandler>>())
+        {
+            if (handlers.CanHandle(content))
+            {
+                await handlers.HandleAsync(content, cancellationToken).ConfigureAwait(false);
+            }
+        }
     }
 }

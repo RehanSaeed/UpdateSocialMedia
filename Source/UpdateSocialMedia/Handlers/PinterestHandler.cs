@@ -8,11 +8,11 @@ public class PinterestHandler : IHandler
 {
     private const string Board = "Test";
 
-    public bool CanHandle(Content content) => true;
+    public bool CanHandle(Content content) => false;
 
     public async Task HandleAsync(Content content, CancellationToken cancellationToken)
     {
-        var client = new PinSharpClient("");
+        var client = new PinSharpClient("fsdf");
         await client.Pins
             .CreatePinAsync(
                 Board,

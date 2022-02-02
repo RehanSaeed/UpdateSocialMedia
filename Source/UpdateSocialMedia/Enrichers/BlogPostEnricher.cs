@@ -3,10 +3,15 @@ namespace UpdateSocialMedia.Enrichers;
 using System.Linq;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using Microsoft.Extensions.Logging;
 using UpdateSocialMedia.Models;
 
 public class BlogPostEnricher : IEnricher
 {
+    private readonly ILogger<BlogPostEnricher> logger;
+
+    public BlogPostEnricher(ILogger<BlogPostEnricher> logger) => this.logger = logger;
+
     public bool CanEnrich(Content content) => content is BlogPost;
 
     public async Task EnrichAsync(Content content, CancellationToken cancellationToken)
@@ -19,6 +24,8 @@ public class BlogPostEnricher : IEnricher
 
         content.Title = GetMetaTag(metaTags, "og:title");
         content.ThumbnailUrl = GetMetaTagUri(metaTags, "og:image");
+
+        this.logger.EnrichedBlogPost(content.Title, content.ThumbnailUrl);
     }
 
     private static string? GetMetaTag(HtmlNodeCollection metaTags, string propertyName) =>

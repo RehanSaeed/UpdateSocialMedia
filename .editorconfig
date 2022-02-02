@@ -423,6 +423,8 @@ dotnet_naming_rule.parameters_rule.severity = warning
 dotnet_diagnostic.SA0001.severity = none
 
 dotnet_diagnostic.CA1014.severity = silent
+tab_width = 4
+end_of_line = crlf
 
 [*.cs]
 # SA1600: Elements should be documented.
@@ -430,10 +432,30 @@ dotnet_diagnostic.CA1014.severity = silent
 # https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1600.md
 dotnet_diagnostic.SA1600.severity = none
 
+# SA1601: Partial elements should be documented.
+# Justification: Comments turned off
+# https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1601.md
+dotnet_diagnostic.SA1601.severity = none
+
 # SA1633: A C# code file is missing a standard file header.
 # Justification: Comments turned off
 # https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1633.md
 dotnet_diagnostic.SA1633.severity = none
+csharp_indent_labels = no_change
+csharp_using_directive_placement = inside_namespace:warning
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_prefer_braces = true:warning
+csharp_style_namespace_declarations = file_scoped:warning
+csharp_style_expression_bodied_methods = true:warning
+csharp_style_expression_bodied_constructors = true:warning
+csharp_style_expression_bodied_operators = true:warning
+csharp_style_expression_bodied_properties = true:warning
+csharp_style_expression_bodied_indexers = true:warning
+csharp_style_expression_bodied_accessors = true:warning
+csharp_style_expression_bodied_lambdas = true:warning
+csharp_style_expression_bodied_local_functions = true:warning
+csharp_style_throw_expression = true:warning
+csharp_style_prefer_null_check_over_type_check = true:warning
 
 ##########################################
 # License

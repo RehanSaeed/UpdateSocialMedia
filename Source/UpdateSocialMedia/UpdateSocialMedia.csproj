@@ -1,16 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
+  <PropertyGroup Label="Build">
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>UpdateSocialMedia-113f2d04-69f0-40c3-8797-ba3f356dd812</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package">
+    <Authors>Muhammad Rehan Saeed</Authors>
+    <Company>Muhammad Rehan Saeed</Company>
+    <Product>Update Social Media</Product>
+    <Description> Creates posts on social media for a new YouTube video or blog post. </Description>
+    <Copyright>Copyright © Muhammad Rehan Saeed. All rights Reserved</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.40" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
     <PackageReference Include="PinSharp" Version="2.3.3" />
     <PackageReference Include="Reddit" Version="1.5.0" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta2.21617.1" />
+    <PackageReference Include="System.CommandLine.Hosting" Version="0.4.0-alpha.21617.1" />
     <PackageReference Include="YoutubeExplode" Version="6.0.7" />
   </ItemGroup>
 
