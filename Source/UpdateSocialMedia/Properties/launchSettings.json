@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "UpdateSocialMedia": {
+      "commandName": "Project",
+      "commandLineArgs": "--url=https://rehansaeed.com/the-problem-with-csharp-10-implicit-usings/ --subreddit=dotnet,kubernetes"
+    }
+  }
+}
