@@ -15,9 +15,17 @@
     <Copyright>Copyright © Muhammad Rehan Saeed. All rights Reserved</Copyright>
   </PropertyGroup>
 
+  <ItemGroup Label="Files">
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.40" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="6.0.0" />
     <PackageReference Include="PinSharp" Version="2.3.3" />
     <PackageReference Include="Reddit" Version="1.5.0" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta2.21617.1" />

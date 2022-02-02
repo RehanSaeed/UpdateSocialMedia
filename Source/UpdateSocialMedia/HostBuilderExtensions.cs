@@ -1,10 +1,12 @@
 namespace UpdateSocialMedia;
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using UpdateSocialMedia.Enrichers;
 using UpdateSocialMedia.Handlers;
+using UpdateSocialMedia.Options;
 
 public static class HostBuilderExtensions
 {
@@ -27,8 +29,11 @@ public static class HostBuilderExtensions
                     options.ValidateOnBuild = isDevelopment;
                 });
 
-    private static void ConfigureServices(IServiceCollection services) =>
+    private static void ConfigureServices(HostBuilderContext context, IServiceCollection services) =>
         services
+            .ConfigureAndValidateSingleton<ApplicationOptions>(context.Configuration)
+            .ConfigureAndValidateSingleton<PinterestOptions>(context.Configuration.GetRequiredSection(nameof(ApplicationOptions.Reddit)))
+            .ConfigureAndValidateSingleton<RedditOptions>(context.Configuration.GetRequiredSection(nameof(ApplicationOptions.Reddit)))
             .AddSingleton<IEnricher, BlogPostEnricher>()
             .AddSingleton<IEnricher, YouTubeVideoEnricher>()
             .AddSingleton<IHandler, PinterestHandler>()

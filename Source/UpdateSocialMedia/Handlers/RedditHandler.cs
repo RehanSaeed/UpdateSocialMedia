@@ -3,14 +3,19 @@ namespace UpdateSocialMedia.Handlers;
 using System.Threading.Tasks;
 using Reddit;
 using UpdateSocialMedia.Models;
+using UpdateSocialMedia.Options;
 
 internal class RedditHandler : IHandler
 {
+    private readonly RedditOptions redditOptions;
+
+    public RedditHandler(RedditOptions redditOptions) => this.redditOptions = redditOptions;
+
     public bool CanHandle(Content content) => true;
 
     public async Task HandleAsync(Content content, CancellationToken cancellationToken)
     {
-        var redditClient = new RedditClient("YourRedditAppID", "YourBotUserRefreshToken");
+        var redditClient = new RedditClient(this.redditOptions.ApplicationId, this.redditOptions.Token);
 
         await redditClient
             .Subreddit()
