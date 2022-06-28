@@ -5,6 +5,8 @@ using PinSharp;
 using UpdateSocialMedia.Models;
 using UpdateSocialMedia.Options;
 
+// https://github.com/Krusen/PinSharp
+// https://developers.pinterest.com/apps/
 public class PinterestHandler : IHandler
 {
     private readonly PinterestOptions pinterestOptions;

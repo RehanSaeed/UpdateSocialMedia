@@ -4,5 +4,5 @@ public class RedditOptions
 {
     public string ApplicationId { get; set; } = default!;
 
-    public string Token { get; set; } = default!;
+    public string RefreshToken { get; set; } = default!;
 }
